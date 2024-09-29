@@ -29,12 +29,16 @@ plt.yscale('log')
 plt.grid(True)
 plt.show()
 
-# 3. Average transfer fee per season
-avg_transfer_fee_per_season = data.groupby('transfer_season')['transfer_fee'].mean()
-avg_transfer_fee_per_season.plot(kind='bar', figsize=(12, 6))
-plt.title('Average Transfer Fee per Season')
-plt.xlabel('Season')
-plt.ylabel('Average Transfer Fee (EUR)')
+# 3. Total transfer fees for each player
+total_transfer_fees_per_player = data.groupby('player_name')['transfer_fee'].sum().reset_index()
+total_transfer_fees_per_player = total_transfer_fees_per_player.sort_values(by='transfer_fee', ascending=False).head(10)
+
+# Plotting total transfer fees per player
+plt.figure(figsize=(12, 6))
+plt.bar(total_transfer_fees_per_player['player_name'], total_transfer_fees_per_player['transfer_fee'], color='lightblue')
+plt.title('Top 10 Players by Total Transfer Fees')
+plt.xlabel('Player Name')
+plt.ylabel('Total Transfer Fees (EUR)')
 plt.xticks(rotation=45)
 plt.grid(axis='y')
 plt.show()
